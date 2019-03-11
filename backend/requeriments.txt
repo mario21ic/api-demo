@@ -7,6 +7,8 @@ docutils==0.14
 itsdangerous==1.1.0
 Jinja2==2.10
 MarkupSafe==1.1.1
+mysql-connector-python==8.0.15
+protobuf==3.7.0
 Pygments==2.3.0
 pytz==2018.9
 readme-renderer==24.0

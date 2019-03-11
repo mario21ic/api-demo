@@ -15,7 +15,7 @@ var app = new Vue({
         console.log('Respuesta del servidor: ' + response);
         this.personajes = response.body;
       }, function(){
-      alert('Error on load!');
+        alert('Error on load!');
       });
     },
     save: function() {
@@ -27,7 +27,7 @@ var app = new Vue({
         console.log('Respuesta del servidor: ' + response);
         this.personajes = response.body;
       }, function(){
-      alert('Error on save!');
+        alert('Error on save!');
       });
     }
   }

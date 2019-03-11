@@ -6,29 +6,18 @@ from bottle import route, run, template
 from bottle import request, response, hook
 from bottle import post, get, put, delete
 
+import mysql.connector
+
+cnx = mysql.connector.connect(host='db', database='api_db', user='root', password='myclave')
+cursor = cnx.cursor()
+
 _allow_origin = '*'
 _allow_methods = 'PUT, GET, POST, DELETE, OPTIONS'
 _allow_headers = 'Authorization, Origin, Accept, Content-Type, X-Requested-With'
 
-_personajes = [
-      {
-        "first_name": "Jill",
-        "last_name": "Valentine",
-        "twitter": "eviljill",
-        "juegos":[1,3,5]
-      },
-      {
-        "first_name": "Leon",
-        "last_name": "Kennedy",
-        "twitter": "evilleon",
-        "juegos":[2,4,6]
-      }
-  ]
-
 
 @hook('after_request')
 def enable_cors():
-    '''Add headers to enable CORS'''
     response.headers['Access-Control-Allow-Origin'] = _allow_origin
     response.headers['Access-Control-Allow-Methods'] = _allow_methods
     response.headers['Access-Control-Allow-Headers'] = _allow_headers
@@ -44,14 +33,9 @@ def save_handler():
     if data['first_name'] is not None and \
       data["last_name"] is not None and \
       data["twitter"] is not None:
-      first_name = data['first_name']
-      last_name = data["last_name"]
-      twitter = data["twitter"]
-      _personajes.append({
-        "first_name": first_name,
-        "last_name": last_name,
-        "twitter": twitter,
-      })
+      sql_insert_query = "insert into `personaje` values(NULL, '%s', '%s', '%s')" % (data['first_name'], data["last_name"], data["twitter"])
+      result  = cursor.execute(sql_insert_query)
+      cnx.commit()
       status = True
 
     response.headers['Content-Type'] = 'application/json'
@@ -59,15 +43,24 @@ def save_handler():
 
 @get('/personaje')
 def listing_handler():
-    '''Handles name listing'''
+    query = ("SELECT * FROM personaje")
+    cursor.execute(query)
+    records = cursor.fetchall()
+    personajes = []
+    for row in records:
+        personajes.append({
+        "id": row[0],
+        "first_name": row[1],
+        "last_name": row[2],
+        "twitter": row[3],
+        })
     response.headers['Content-Type'] = 'application/json'
     response.headers['Cache-Control'] = 'no-cache'
-    return json.dumps(_personajes)
-
+    return json.dumps(personajes)
 
 @get('/')
-def index(name):
-    return template('Hello World!')
+def index():
+    return json.dumps({"message": "Hello World"})
 
 
 _names = set()                    # the set of names

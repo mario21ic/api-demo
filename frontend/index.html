@@ -40,7 +40,7 @@
         </thead>
         <tbody>
           <tr v-for="item in personajes"> 
-            <th scope="row">1</th>
+            <th scope="row">{{ item.id }}</th>
             <td>{{ item.first_name }}</td>
             <td>{{ item.last_name }}</td>
             <td>@{{ item.twitter }}</td>
