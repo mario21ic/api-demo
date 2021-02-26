@@ -1,4 +1,4 @@
-var app = new Vue({
+let app = new Vue({
   el: '#app',
   data: {
     endpoint: 'http://localhost:8080/personaje',

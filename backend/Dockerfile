@@ -2,7 +2,7 @@ FROM python:3.5
 
 #COPY main.py /apps/main.py
 COPY requeriments.txt /tmp/
-RUN pip install -r /tmp/requeriments.txt
+RUN pip install --no-cache-dir -r /tmp/requeriments.txt
 
 WORKDIR /apps
 
