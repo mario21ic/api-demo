@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+
+  api:
+    image: mario21ic/api-demo
+    build:
+      context: ./backend/
+    restart: always
+    depends_on:
+      - db
+    volumes:
+      - ./backend/:/apps/
+    command: ["python3", "main.py"]
+    ports:
+      - 8080:8080
+
+  db:
+    image: mysql:5.5
+    restart: always
+    environment:
+      MYSQL_DATABASE: api_db
+      MYSQL_ROOT_PASSWORD: myclave
+    volumes:
+      - ./mysql_data/:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+
