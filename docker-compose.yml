@@ -11,7 +11,7 @@ services:
       - db
     volumes:
       - ./backend/:/apps/
-    command: ["python3", "main.py"]
+    command: ["python3", "/apps/main.py"]
     ports:
       - 8080:8080
 

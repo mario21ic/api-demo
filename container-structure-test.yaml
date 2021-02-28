@@ -1,0 +1,23 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: "LD_LIBRARY_PATH"
+      value: "/usr/lib64/"
+  exposedPorts: ["8080"]
+  volumes: ["/apps"]
+  workdir: "/apps"
+  cmd: ["python3", "/apps/main.py"]
+
+
+fileExistenceTests:
+
+  - name: 'main.py'
+    path: '/apps/main.py'
+    shouldExist: true
+    permissions: '-rwxrwxr-x'
+
+  - name: 'requeriments.txt'
+    path: '/etc/requeriments.txt'
+    shouldExist: true
+    permissions: '-rw-rw-r--'
